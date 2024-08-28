@@ -7,4 +7,4 @@ RUN npm install
 COPY . .
 EXPOSE 3000
 RUN npm run build
-CMD ["npm", "index.js"]
+CMD ["npm", "app.js"]
