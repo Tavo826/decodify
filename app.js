@@ -1,12 +1,13 @@
 const CryptoJS = require("crypto-js")
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.status(200)
+    .send('Hello World');
 })
 
 
@@ -16,7 +17,8 @@ app.post('/decode', (req, res) => {
     const key = req.body.key;
 
     const tokenDecrypt = JSON.parse(decrypt(token, key));
-    res.json(tokenDecrypt);
+    res.status(200)
+    .json(tokenDecrypt);
 });
 
 function decrypt(data, key) {
