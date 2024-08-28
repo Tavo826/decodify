@@ -1,17 +1,10 @@
-FROM node:18-alpine as base
+FROM node:18-alpine
 
-WORKDIR /src
-COPY package*.json /
+# Create app directory
+WORKDIR /usr/app
+COPY package*.json ./
+RUN npm install
+COPY . .
 EXPOSE 3000
-
-FROM base as production
-ENV NODE_ENV=production
-RUN npm ci
-COPY . /
-CMD ["node", ".src/index.js"]
-
-FROM base as dev
-ENV NODE_ENV=development
-RUN npm install -g nodemon && npm install
-COPY . /
-CMD ["nodemon", "./src/index.js"]
+RUN npm run build
+CMD ["npm", "index.js"]
