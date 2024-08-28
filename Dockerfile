@@ -1,10 +1,10 @@
 FROM node:18-alpine
 
 # Create app directory
-WORKDIR /usr/app
+WORKDIR /src
 COPY package*.json ./
 RUN npm install
 COPY . .
 EXPOSE 3000
 RUN npm run build
-CMD ["npm", "index.js"]
+CMD ["npm", "/src/index.js"]
