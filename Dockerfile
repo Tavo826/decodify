@@ -1,18 +1,17 @@
-FROM node:10
+FROM node:18-alpine as base
 
-# Create app directory
 WORKDIR /src
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY package*.json ./
-
-RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
-COPY . .
-
+COPY package*.json /
 EXPOSE 3000
-CMD [ "node", "./src/index.js" ]
+
+FROM base as production
+ENV NODE_ENV=production
+RUN npm ci
+COPY . /
+CMD ["node", ".src/index.js"]
+
+FROM base as dev
+ENV NODE_ENV=development
+RUN npm install -g nodemon && npm install
+COPY . /
+CMD ["nodemon", "./src/index.js"]
